@@ -18,6 +18,11 @@ config.zone = qiniu.zone.Zone_z2;
 const failFiles = [];
 const exFile = ['index.html'];
 
+/**
+ * 七牛上传
+ * @param {object} file 待上传文件
+ * @param {string} project_dir_name 项目名
+ */
 function qiniuUpload(file, project_dir_name) {
     console.log(file);
     if (exFile.indexOf(file.basename) !== -1) {
