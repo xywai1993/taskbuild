@@ -1,4 +1,11 @@
 //const { sh, cli } = require("tasksfile");
+
+/**
+ * 部署文件———— 图片上传，文件转移等
+ * @author yiper.fan 2020年11月06日19:59:08
+ */
+
+const { settings } = require('cluster');
 const { readdir, copyFileSync, existsSync, mkdirSync, rmdirSync } = require('fs');
 const { join } = require('path');
 const path = require('path');
@@ -32,12 +39,20 @@ function moveDeploy(file, deployTo) {
         mkdirSync(to);
     } else {
         copyFileSync(file.from, to);
-        console.log(`success:  filename:${file.name} ## from:${file.from}--->to:${to}`);
+        console.log(`success: from:${file.from}--->to:${to}`);
     }
 }
 
 function main(settings) {
-    cleanAndRemark(settings.moveTo);
+    const settingFn = settings.fnList;
+
+    if (settingFn.move) {
+        cleanAndRemark(settings.moveTo);
+    }
+
+    if (settingFn.htmlMove) {
+        cleanAndRemark(settings.htmlMoveTo);
+    }
     // 主程序
     scanFile(settings.dist);
 
@@ -50,38 +65,39 @@ function main(settings) {
         //读取文件属性
         readdir(from, { withFileTypes: true }, (err, files) => {
             files.forEach((item) => {
-                // console.log(item);
-
                 const name = item.name;
-                const formUrl = path.join(from, name);
-                // const toUrl = path.join(to, name);
+                const fromUrl = path.join(from, name);
 
-                // const r = RegExp(`^${settings.dist}\/`);
-                // console.log(r, formUrl.replace(r, ''));
-                // console.log(path.relative(settings.dist, formUrl));
                 const file = {
                     name: item.name,
                     basename: item.name,
-                    from: formUrl,
+                    from: fromUrl,
                     // to: toUrl,
-                    release: path.relative(settings.dist, formUrl),
+                    release: path.relative(settings.dist, fromUrl),
                     extname: path.extname(name),
                 };
                 if (item.isDirectory()) {
                     file.isDir = true;
-                    scanFile(formUrl);
+                    scanFile(fromUrl);
                 } else {
                     file.isDir = false;
 
                     // 上传文件
-                    if (settings.fnList.upload) {
-                        settings.fnList.upload(file);
+                    if (settingFn.upload) {
+                        settings.fnList.upload.call(null, file, settings);
                     }
                 }
 
                 // 移动文件
-                if (settings.fnList.move) {
-                    settings.fnList.move(file);
+                if (settingFn.move) {
+                    settings.fnList.move.call(null, file, settings);
+                }
+
+                //转移HTML
+                if (settingFn.htmlMove) {
+                    if (file.extname === '.html') {
+                        settings.fnList.htmlMove.call(null, file, settings);
+                    }
                 }
             });
         });
@@ -91,13 +107,18 @@ function main(settings) {
 main({
     dist: path.join(__dirname, '../dist'), // 源目标目录
     moveTo: path.join(__dirname, '../targetDir'), // 转移到哪里
-    qiniuName: 'test', // 七牛上传文件前缀名
+    htmlMoveTo: path.join(__dirname, '../htmlTargetDir'), // HTML部署目录
+    qiniuName: 'test', // 七牛上传文件前缀名 注意：必须与构建工具的base参数相同
     fnList: {
-        move: (file) => {
-            moveDeploy(file, path.join(__dirname, '../targetDir'));
+        // 下面不需要的方法请注释掉，否则会执行相应的方法
+        move: (file, settings) => {
+            moveDeploy(file, settings.moveTo);
         },
-        // upload: (file) => {
-        //     qiniuUpload(file, 'test');
-        // },
+        htmlMove: (file, settings) => {
+            moveDeploy(file, settings.htmlMoveTo);
+        },
+        upload: (file, settings) => {
+            qiniuUpload(file, settings.qiniuName);
+        },
     },
 });
