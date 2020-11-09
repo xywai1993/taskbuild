@@ -84,19 +84,19 @@ function main(settings) {
 
                     // 上传文件
                     if (settingFn.upload) {
-                        settings.fnList.upload.call(null, file, settings);
+                        settingFn.upload.call(null, file, settings);
                     }
                 }
 
                 // 移动文件
                 if (settingFn.move) {
-                    settings.fnList.move.call(null, file, settings);
+                    settingFn.move.call(null, file, settings);
                 }
 
                 //转移HTML
                 if (settingFn.htmlMove) {
                     if (file.extname === '.html') {
-                        settings.fnList.htmlMove.call(null, file, settings);
+                        settingFn.htmlMove.call(null, file, settings);
                     }
                 }
             });
