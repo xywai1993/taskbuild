@@ -14,9 +14,13 @@ var uploadToken = putPolicy.uploadToken(mac);
 const config = new qiniu.conf.Config();
 // 空间对应的机房
 config.zone = qiniu.zone.Zone_z2;
+const formUploader = new qiniu.form_up.FormUploader(config);
+const putExtra = new qiniu.form_up.PutExtra();
 
 const failFiles = [];
-const exFile = ['index.html'];
+
+// HTML文件不上传
+const exFile = ['.html'];
 
 /**
  * 七牛上传
@@ -25,14 +29,12 @@ const exFile = ['index.html'];
  */
 function qiniuUpload(file, project_dir_name) {
     console.log(file);
-    if (exFile.indexOf(file.basename) !== -1) {
+    if (exFile.indexOf(file.extname) !== -1) {
         return;
     }
 
     var localFile = file.from;
 
-    var formUploader = new qiniu.form_up.FormUploader(config);
-    var putExtra = new qiniu.form_up.PutExtra();
     var key = path.join(project_dir_name, file.release);
     // 文件上传
     formUploader.putFile(uploadToken, key, localFile, putExtra, function (respErr, respBody, respInfo) {

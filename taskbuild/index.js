@@ -5,9 +5,9 @@
  * @author yiper.fan 2020年11月06日19:59:08
  */
 
-const { settings } = require('cluster');
+// const { settings } = require('cluster');
 const { readdir, copyFileSync, existsSync, mkdirSync, rmdirSync } = require('fs');
-const { join } = require('path');
+// const { join } = require('path');
 const path = require('path');
 const qiniuUpload = require('./qiniuUpload');
 
@@ -112,10 +112,10 @@ main({
     fnList: {
         // 下面不需要的方法请注释掉，否则会执行相应的方法
         move: (file, settings) => {
-            moveDeploy(file, settings.moveTo);
+            // moveDeploy(file, settings.moveTo);
         },
         htmlMove: (file, settings) => {
-            moveDeploy(file, settings.htmlMoveTo);
+            // moveDeploy(file, settings.htmlMoveTo);
         },
         upload: (file, settings) => {
             qiniuUpload(file, settings.qiniuName);
