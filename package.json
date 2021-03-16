@@ -3,14 +3,13 @@
     "version": "0.0.0",
     "main": "./src/index.js",
     "scripts": {
-        "task": "node ./src/index.js"
+        "task": "node taskbuild.js"
     },
-    "dependencies": {},
-    "devDependencies": {
-        "@vue/compiler-sfc": "^3.0.0-rc.1",
-        "qiniu": "^7.3.2",
-        "vite": "^2.1.0",
-        "@vitejs/plugin-vue": "^1.1.5",
-        "vue": "^3.0.0-rc.1"
-    }
+    "dependencies": {
+        "qiniu": "^7.3.2"
+    },
+    "devDependencies": {},
+    "files": [
+        "./src"
+    ]
 }

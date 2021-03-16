@@ -173,26 +173,6 @@ function main(settings) {
     }
 }
 // console.log(__dirname);
-console.time('main发费时间：');
-const accessKey = 'MOuxWdctTtaTqJCk-2Sx_ZDtthDr8I3CNHgYmTGm';
-const secretKey = 'A9K6nk1bfd_eWAINPOfsXnCoKgbXfRgc5HsdUegZ';
-main({
-    taskList: {
-        qiniuUpload: {
-            root: path.join(__dirname, '../testdist'),
-            publicName: 'test',
-            accessKey: 'MOuxWdctTtaTqJCk-2Sx_ZDtthDr8I3CNHgYmTGm',
-            secretKey: 'A9K6nk1bfd_eWAINPOfsXnCoKgbXfRgc5HsdUegZ',
-        },
-        // fileMove: {
-        //     root: path.join(__dirname, '../testdist'),
-        //     deployTo: path.join(__dirname, '../targetDir'),
-        // },
-        // htmlMove: {
-        //     extname: ['html'],
-        //     root: path.join(__dirname, '../testdist'),
-        //     deployTo: path.join(__dirname, '../htmlTargetDir'),
-        // },
-    },
-});
-console.timeEnd('main发费时间：');
+
+// exports.modules = main;
+module.exports = main;
