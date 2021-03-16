@@ -8,8 +8,7 @@
     "dependencies": {
         "qiniu": "^7.3.2"
     },
-    "devDependencies": {},
     "files": [
-        "./src"
+        "src"
     ]
 }
