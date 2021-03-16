@@ -1,17 +1,16 @@
 {
-    "name": "vite-vue-demo",
+    "name": "@yiper.fan/taskbuild",
     "version": "0.0.0",
+    "main": "./src/index.js",
     "scripts": {
-        "dev": "vite",
-        "build": "vite build",
-        "task": "node ./taskbuild/index.js"
+        "task": "node ./src/index.js"
     },
-    "dependencies": {
-        "vue": "^3.0.0-rc.1"
-    },
+    "dependencies": {},
     "devDependencies": {
         "@vue/compiler-sfc": "^3.0.0-rc.1",
         "qiniu": "^7.3.2",
-        "vite": "^1.0.0-rc.9"
+        "vite": "^2.1.0",
+        "@vitejs/plugin-vue": "^1.1.5",
+        "vue": "^3.0.0-rc.1"
     }
 }

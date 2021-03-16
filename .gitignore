@@ -4,3 +4,4 @@ dist
 *.local
 targetDir
 htmlTargetDir
+testdist
