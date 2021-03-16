@@ -147,7 +147,7 @@ function startTask(settings) {
     for (task in settings.taskList) {
         console.log(task);
         const params = settings.taskList[task];
-        console.log(params);
+
         switch (task) {
             case 'qiniuUpload':
                 mainQiniuFn(params);
@@ -159,11 +159,12 @@ function startTask(settings) {
                 });
                 break;
             case 'htmlMove':
+                const _params = Object.assign({ extname: ['html'] }, params);
                 cleanAndRemark(params.deployTo);
-                mainScanFile(params.root, (file) => {
-                    const extname = params.extname.map((item) => '.' + item);
+                mainScanFile(_params.root, (file) => {
+                    const extname = _params.extname.map((item) => '.' + item);
                     if (extname.indexOf(file.extname) !== -1) {
-                        moveDeploy(file, params.deployTo);
+                        moveDeploy(file, _params.deployTo);
                     }
                 });
                 break;
