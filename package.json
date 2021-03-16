@@ -8,6 +8,16 @@
     "dependencies": {
         "qiniu": "^7.3.2"
     },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/xywai1993/taskbuild.git"
+    },
+    "author": "yiper.fan",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/xywai1993/taskbuild/issues"
+    },
+    "homepage": "https://github.com/xywai1993/taskbuild#readme",
     "files": [
         "src"
     ]
