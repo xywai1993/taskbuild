@@ -141,7 +141,7 @@ function mainQiniuFn(params) {
     qiniuUpload(files, params);
 }
 
-function main(settings) {
+function startTask(settings) {
     const settingFn = settings.fnList;
 
     for (task in settings.taskList) {
@@ -175,4 +175,4 @@ function main(settings) {
 // console.log(__dirname);
 
 // exports.modules = main;
-module.exports = main;
+module.exports = startTask;

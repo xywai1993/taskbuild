@@ -25,7 +25,7 @@ interface settings {
             secretKey: string;
         };
         /**
-         * 文件移动
+         * 转移文件，转移后不会改变源目录，仅拷贝
          */
         fileMove?: {
             /**
@@ -37,9 +37,12 @@ interface settings {
              */
             deployTo: string;
         };
+        /**
+         * 特定文件后缀转移，转移后不会改变源目录，仅拷贝
+         */
         htmlMove?: {
             /**
-             * 在列表中的文件后缀将被移动，不会改变原目录
+             * 在列表中的文件后缀将被转移
              * @default ['html']
              */
             extname?: string[];
@@ -54,5 +57,5 @@ interface settings {
         };
     };
 }
-declare function main(setting: settings): void;
-export = main;
+declare function startTask(setting: settings): void;
+export = startTask;
