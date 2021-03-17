@@ -13,15 +13,19 @@ const path = require('path');
 const qiniuUpload = require('./qiniuUpload');
 
 /**
- * 删除并且重新创建文件夹
+ * 清空文件夹下所有内容
  *@param {string} dir 文件夹路径
+ *@param {boolean} rmSelf 是否删除本身 默认false
  */
-function cleanAndRemark(dir) {
+function cleanAndRemark(dir, rmSelf = false) {
     // sh(`rm -rf ${deployTo}`);
+
     rmdirSync(dir, { recursive: true });
     console.log(`${dir},删除成功`);
-    mkdirSync(dir);
-    console.log(`${dir},创建成功`);
+    if (!rmSelf) {
+        mkdirSync(dir);
+        console.log(`${dir},创建成功`);
+    }
 }
 
 /**
@@ -74,6 +78,11 @@ function mainScanFile(from, cb) {
     scanFile(from, cb);
 }
 
+/**
+ * 同步扫码文件夹
+ * @param {path} from
+ * @param {Function} cb
+ */
 function mainScanFileSync(from, cb) {
     const root = from;
     /**
@@ -82,28 +91,6 @@ function mainScanFileSync(from, cb) {
      */
     function scanFile(from, cb) {
         //读取文件属性
-
-        // readdir(from, { withFileTypes: true }, (err, files) => {
-        //     files.forEach((item) => {
-        //         const name = item.name;
-        //         const fromUrl = path.join(from, name);
-
-        //         const file = {
-        //             name: item.name,
-        //             basename: item.name,
-        //             from: fromUrl,
-        //             // to: toUrl,
-        //             release: path.relative(root, fromUrl),
-        //             extname: path.extname(name),
-        //             isDir: item.isDirectory(),
-        //         };
-        //         if (item.isDirectory()) {
-        //             scanFile(fromUrl, cb);
-        //         } else {
-        //             cb(file);
-        //         }
-        //     });
-        // });
 
         const files = readdirSync(from, { withFileTypes: true });
 
@@ -131,7 +118,39 @@ function mainScanFileSync(from, cb) {
     scanFile(from, cb);
 }
 
-function mainQiniuFn(params) {
+/**
+ * 主函数
+ * @param {object} settings
+ */
+function startTask(settings) {
+    settings.taskList.forEach((item) => {
+        const params = item.params;
+        switch (item.taskName) {
+            case 'qiniuUpload':
+                qiniuUploadTask(params);
+                break;
+            case 'fileMove':
+                fileMoveTask(params);
+                break;
+            case 'htmlMove':
+                htmlMoveTask(params);
+                break;
+            case 'cleanDir':
+                cleanDirTask(params);
+            default:
+                break;
+        }
+    });
+}
+function cleanDirTask(params) {
+    const _params = Object.assign({ rmSelf: false }, params);
+    cleanAndRemark(_params.root, _params.rmSelf);
+}
+
+// console.log(__dirname);
+
+// exports.modules = main;
+function qiniuUploadTask(params) {
     const files = [];
     mainScanFileSync(params.root, (file) => {
         console.log(file);
@@ -141,39 +160,22 @@ function mainQiniuFn(params) {
     qiniuUpload(files, params);
 }
 
-function startTask(settings) {
-    const settingFn = settings.fnList;
-
-    for (task in settings.taskList) {
-        console.log(task);
-        const params = settings.taskList[task];
-
-        switch (task) {
-            case 'qiniuUpload':
-                mainQiniuFn(params);
-                break;
-            case 'fileMove':
-                cleanAndRemark(params.deployTo);
-                mainScanFile(params.root, (file) => {
-                    moveDeploy(file, params.deployTo);
-                });
-                break;
-            case 'htmlMove':
-                const _params = Object.assign({ extname: ['html'] }, params);
-                cleanAndRemark(params.deployTo);
-                mainScanFile(_params.root, (file) => {
-                    const extname = _params.extname.map((item) => '.' + item);
-                    if (extname.indexOf(file.extname) !== -1) {
-                        moveDeploy(file, _params.deployTo);
-                    }
-                });
-                break;
-            default:
-                break;
+function htmlMoveTask(params) {
+    const _params = Object.assign({ extname: ['html'] }, params);
+    const extname = _params.extname.map((item) => '.' + item);
+    cleanAndRemark(_params.deployTo);
+    mainScanFile(_params.root, (file) => {
+        if (extname.indexOf(file.extname) !== -1) {
+            moveDeploy(file, _params.deployTo);
         }
-    }
+    });
 }
-// console.log(__dirname);
 
-// exports.modules = main;
+function fileMoveTask(params) {
+    cleanAndRemark(params.deployTo);
+    mainScanFile(params.root, (file) => {
+        moveDeploy(file, params.deployTo);
+    });
+}
+
 module.exports = startTask;
