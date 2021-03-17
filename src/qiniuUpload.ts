@@ -3,12 +3,14 @@ import qiniu from 'qiniu';
 // const path = require('path');
 import path from 'path';
 
-const failFiles = [];
+const failFiles: string[] = [];
+
+import { customFile, qiniuUploadTaskParams } from './index';
 
 // HTML文件不上传
 const exFile = ['.html'];
 
-export function qiniuUpload(files, params) {
+export function qiniuUpload(files: customFile[], params: qiniuUploadTaskParams) {
     //todo: 七牛配置 根据项目自行填写 accessKey，secretKey
     const accessKey = params.accessKey;
     const secretKey = params.secretKey;
@@ -21,7 +23,7 @@ export function qiniuUpload(files, params) {
 
     const config = new qiniu.conf.Config();
     // 空间对应的机房
-    config.zone = qiniu.zone.Zone_z2;
+    // config.zone = qiniu.zone.Zone_z2;
     const formUploader = new qiniu.form_up.FormUploader(config);
     const putExtra = new qiniu.form_up.PutExtra();
 
@@ -32,7 +34,7 @@ export function qiniuUpload(files, params) {
      * @param {object} file 待上传文件
      * @param {string} project_dir_name 项目名
      */
-    function Upload(file, project_dir_name, uploadToken) {
+    function Upload(file: customFile, project_dir_name: string, uploadToken: string) {
         console.log(file);
         if (exFile.indexOf(file.extname) !== -1) {
             return;

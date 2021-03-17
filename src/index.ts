@@ -1,22 +1,17 @@
 //const { sh, cli } = require("tasksfile");
 
 /**
- * 部署文件———— 图片上传，文件转移等
- * @author yiper.fan 2021年03月16日15:53:44
+ * 执行部署任务———— 图片上传，文件转移等
+ * @author yiper.fan 2021年03月17日20:13:57
  */
 
-// const { settings } = require('cluster');
-// const { readdir, readdirSync, copyFileSync, existsSync, mkdirSync, rmdirSync } = require('fs');
-
 import { readdir, readdirSync, copyFileSync, existsSync, mkdirSync, rmdirSync } from 'fs';
-// const {} = require('fs/promises')
-// const { join } = require('path');
-// const path = require('path');
+
 import path from 'path';
 // const qiniuUpload = require('./qiniuUpload');
 import { qiniuUpload } from './qiniuUpload.js';
 
-interface customFile {
+export interface customFile {
     name: string;
     basename: string;
     from: string;
@@ -140,7 +135,7 @@ interface settings {
           }
         | {
               taskName: 'fileMove' | 'htmlMove';
-              params: htmlMoveTaskParams;
+              params: MoveTaskParams;
           }
         | {
               taskName: 'cleanDir';
@@ -161,10 +156,10 @@ function startTask(settings: settings) {
                 qiniuUploadTask(<qiniuUploadTaskParams>params);
                 break;
             case 'fileMove':
-                fileMoveTask(params as htmlMoveTaskParams);
+                fileMoveTask(params as MoveTaskParams);
                 break;
             case 'htmlMove':
-                htmlMoveTask(params as htmlMoveTaskParams);
+                htmlMoveTask(params as MoveTaskParams);
                 break;
             case 'cleanDir':
                 cleanDirTask(params as cleanDirTaskParams);
@@ -186,7 +181,7 @@ function cleanDirTask(params: cleanDirTaskParams) {
 // console.log(__dirname);
 
 // exports.modules = main;
-interface qiniuUploadTaskParams {
+export interface qiniuUploadTaskParams {
     /**
      * 要上传的文件目录，完整路径
      */
@@ -213,7 +208,7 @@ function qiniuUploadTask(params: qiniuUploadTaskParams) {
     qiniuUpload(files, params);
 }
 
-interface htmlMoveTaskParams {
+interface MoveTaskParams {
     /**
      * 在列表中的文件后缀将被转移
      * @default ['html']
@@ -228,7 +223,7 @@ interface htmlMoveTaskParams {
      */
     deployTo: string;
 }
-function htmlMoveTask(params: htmlMoveTaskParams) {
+function htmlMoveTask(params: MoveTaskParams) {
     const _params = Object.assign({ extname: ['html'] }, params);
     const extname = _params.extname.map((item) => '.' + item);
     cleanAndRemark(_params.deployTo);
@@ -239,7 +234,7 @@ function htmlMoveTask(params: htmlMoveTaskParams) {
     });
 }
 
-function fileMoveTask(params: htmlMoveTaskParams) {
+function fileMoveTask(params: MoveTaskParams) {
     cleanAndRemark(params.deployTo);
     mainScanFile(params.root, (file: customFile) => {
         moveDeploy(file, params.deployTo);
