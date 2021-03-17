@@ -1,12 +1,14 @@
-const qiniu = require('qiniu');
-const path = require('path');
+// const qiniu = require('qiniu');
+import qiniu from 'qiniu';
+// const path = require('path');
+import path from 'path';
 
 const failFiles = [];
 
 // HTML文件不上传
 const exFile = ['.html'];
 
-function qiniuUpload(files, params) {
+export function qiniuUpload(files, params) {
     //todo: 七牛配置 根据项目自行填写 accessKey，secretKey
     const accessKey = params.accessKey;
     const secretKey = params.secretKey;
@@ -60,4 +62,4 @@ function qiniuUpload(files, params) {
     });
 }
 
-module.exports = qiniuUpload;
+// module.exports = qiniuUpload;

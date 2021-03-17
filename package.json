@@ -2,8 +2,10 @@
     "name": "@yiper.fan/taskbuild",
     "version": "0.0.6",
     "main": "./src/index.js",
+    "type": "module",
     "scripts": {
-        "task": "node taskbuild.js"
+        "task": "node taskbuild.js",
+        "tsbuild": "tsc"
     },
     "dependencies": {
         "qiniu": "^7.3.2"
@@ -20,5 +22,8 @@
     "homepage": "https://github.com/xywai1993/taskbuild#readme",
     "files": [
         "src"
-    ]
+    ],
+    "devDependencies": {
+        "@types/node": "^14.14.35"
+    }
 }
