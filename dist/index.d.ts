@@ -1,4 +1,9 @@
-export declare function __dirname(importMeta?: ImportMeta): string;
+/**
+ * 获取文件路径 ，作用类似 Common 模块的 __dirname
+ * @param importMeta import.mate
+ * @returns
+ */
+export declare function __dirname(importMeta: ImportMeta): string;
 export interface customFile {
     name: string;
     basename: string;
@@ -44,17 +49,19 @@ interface MoveTaskParams {
      */
     deployTo: string;
 }
-interface settings {
-    taskList: [{
-        taskName: 'qiniuUpload';
-        params: qiniuUploadTaskParams;
-    } | {
-        taskName: 'fileMove' | 'htmlMove';
-        params: MoveTaskParams;
-    } | {
-        taskName: 'cleanDir';
-        params: cleanDirTaskParams;
-    }];
+export interface settings {
+    taskList: [
+        {
+            taskName: 'qiniuUpload';
+            params: qiniuUploadTaskParams;
+        } | {
+            taskName: 'fileMove' | 'htmlMove';
+            params: MoveTaskParams;
+        } | {
+            taskName: 'cleanDir';
+            params: cleanDirTaskParams;
+        }
+    ];
 }
 /**
  * 主函数

@@ -209,7 +209,7 @@ function fileMoveTask(params: MoveTaskParams) {
     });
 }
 
-interface settings {
+export interface settings {
     taskList: [
         | {
               taskName: 'qiniuUpload';
