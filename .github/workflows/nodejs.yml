@@ -27,7 +27,7 @@ jobs:
                   node-version: 15.8.0
             - name: npm install and build
               run: |
-                  npm install
+                  npm ci
                   # npm run test
                   npm run tsbuild
 
