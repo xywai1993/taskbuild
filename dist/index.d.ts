@@ -1,4 +1,4 @@
-export declare function __dirname(): string;
+export declare function __dirname(importMeta?: ImportMeta): string;
 export interface customFile {
     name: string;
     basename: string;
