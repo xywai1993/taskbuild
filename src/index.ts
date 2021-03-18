@@ -11,7 +11,12 @@ import path from 'path';
 // const qiniuUpload = require('./qiniuUpload');
 import { fileURLToPath } from 'url';
 
-export function __dirname(importMeta: ImportMeta = import.meta) {
+/**
+ * 获取文件路径 ，作用类似 Common 模块的 __dirname
+ * @param importMeta import.mate
+ * @returns
+ */
+export function __dirname(importMeta: ImportMeta) {
     return path.dirname(fileURLToPath(importMeta.url));
 }
 import { qiniuUpload } from './qiniuUpload.js';
