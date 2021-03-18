@@ -13,6 +13,10 @@ import { fileURLToPath } from 'url';
  * @returns
  */
 export function __dirname(importMeta) {
+    if (!importMeta) {
+        console.warn('importMeta参数不能为空');
+        return '';
+    }
     return path.dirname(fileURLToPath(importMeta.url));
 }
 import { qiniuUpload } from './qiniuUpload.js';
