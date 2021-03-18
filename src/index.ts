@@ -9,6 +9,11 @@ import { readdir, readdirSync, copyFileSync, existsSync, mkdirSync, rmdirSync } 
 
 import path from 'path';
 // const qiniuUpload = require('./qiniuUpload');
+import { fileURLToPath } from 'url';
+
+export function __dirname() {
+    return path.dirname(fileURLToPath(import.meta.url));
+}
 import { qiniuUpload } from './qiniuUpload.js';
 
 export interface customFile {

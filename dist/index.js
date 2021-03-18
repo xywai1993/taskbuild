@@ -6,6 +6,10 @@
 import { readdir, readdirSync, copyFileSync, existsSync, mkdirSync, rmdirSync } from 'fs';
 import path from 'path';
 // const qiniuUpload = require('./qiniuUpload');
+import { fileURLToPath } from 'url';
+export function __dirname() {
+    return path.dirname(fileURLToPath(import.meta.url));
+}
 import { qiniuUpload } from './qiniuUpload.js';
 /**
  * 清空文件夹下所有内容
@@ -103,30 +107,6 @@ function mainScanFileSync(from, cb) {
     }
     scanFile(from, cb);
 }
-/**
- * 主函数
- * @param {object} settings
- */
-function startTask(settings) {
-    settings.taskList.forEach((item) => {
-        const params = item.params;
-        switch (item.taskName) {
-            case 'qiniuUpload':
-                qiniuUploadTask(params);
-                break;
-            case 'fileMove':
-                fileMoveTask(params);
-                break;
-            case 'htmlMove':
-                htmlMoveTask(params);
-                break;
-            case 'cleanDir':
-                cleanDirTask(params);
-            default:
-                break;
-        }
-    });
-}
 function cleanDirTask(params) {
     const _params = Object.assign({ rmSelf: false }, params);
     cleanAndRemark(_params.root, _params.rmSelf);
@@ -153,6 +133,30 @@ function fileMoveTask(params) {
     cleanAndRemark(params.deployTo);
     mainScanFile(params.root, (file) => {
         moveDeploy(file, params.deployTo);
+    });
+}
+/**
+ * 主函数
+ * @param {object} settings
+ */
+function startTask(settings) {
+    settings.taskList.forEach((item) => {
+        const params = item.params;
+        switch (item.taskName) {
+            case 'qiniuUpload':
+                qiniuUploadTask(params);
+                break;
+            case 'fileMove':
+                fileMoveTask(params);
+                break;
+            case 'htmlMove':
+                htmlMoveTask(params);
+                break;
+            case 'cleanDir':
+                cleanDirTask(params);
+            default:
+                break;
+        }
     });
 }
 // module.exports = startTask;

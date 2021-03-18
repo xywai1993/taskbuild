@@ -1,3 +1,4 @@
+export declare function __dirname(): string;
 export interface customFile {
     name: string;
     basename: string;
@@ -6,23 +7,6 @@ export interface customFile {
     extname: string;
     isDir: boolean;
 }
-interface settings {
-    taskList: [{
-        taskName: 'qiniuUpload';
-        params: qiniuUploadTaskParams;
-    } | {
-        taskName: 'fileMove' | 'htmlMove';
-        params: MoveTaskParams;
-    } | {
-        taskName: 'cleanDir';
-        params: cleanDirTaskParams;
-    }];
-}
-/**
- * 主函数
- * @param {object} settings
- */
-declare function startTask(settings: settings): void;
 interface cleanDirTaskParams {
     root: string;
     rmSelf: boolean;
@@ -60,4 +44,21 @@ interface MoveTaskParams {
      */
     deployTo: string;
 }
+interface settings {
+    taskList: [{
+        taskName: 'qiniuUpload';
+        params: qiniuUploadTaskParams;
+    } | {
+        taskName: 'fileMove' | 'htmlMove';
+        params: MoveTaskParams;
+    } | {
+        taskName: 'cleanDir';
+        params: cleanDirTaskParams;
+    }];
+}
+/**
+ * 主函数
+ * @param {object} settings
+ */
+declare function startTask(settings: settings): void;
 export { startTask };
