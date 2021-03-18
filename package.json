@@ -1,7 +1,7 @@
 {
     "name": "@yiper.fan/taskbuild",
     "version": "0.0.6",
-    "main": "./src/index.js",
+    "main": "./dist/index.js",
     "type": "module",
     "scripts": {
         "task": "node taskbuild.js",
@@ -21,7 +21,7 @@
     },
     "homepage": "https://github.com/xywai1993/taskbuild#readme",
     "files": [
-        "src"
+        "dist"
     ],
     "devDependencies": {
         "@types/node": "^14.14.35"
