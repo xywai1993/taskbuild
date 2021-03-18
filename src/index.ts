@@ -127,48 +127,6 @@ function mainScanFileSync(from: string, cb: Function) {
     scanFile(from, cb);
 }
 
-interface settings {
-    taskList: [
-        | {
-              taskName: 'qiniuUpload';
-              params: qiniuUploadTaskParams;
-          }
-        | {
-              taskName: 'fileMove' | 'htmlMove';
-              params: MoveTaskParams;
-          }
-        | {
-              taskName: 'cleanDir';
-              params: cleanDirTaskParams;
-          }
-    ];
-}
-
-/**
- * 主函数
- * @param {object} settings
- */
-function startTask(settings: settings) {
-    settings.taskList.forEach((item) => {
-        const params = item.params;
-        switch (item.taskName) {
-            case 'qiniuUpload':
-                qiniuUploadTask(<qiniuUploadTaskParams>params);
-                break;
-            case 'fileMove':
-                fileMoveTask(params as MoveTaskParams);
-                break;
-            case 'htmlMove':
-                htmlMoveTask(params as MoveTaskParams);
-                break;
-            case 'cleanDir':
-                cleanDirTask(params as cleanDirTaskParams);
-            default:
-                break;
-        }
-    });
-}
-
 interface cleanDirTaskParams {
     root: string;
     rmSelf: boolean;
@@ -238,6 +196,48 @@ function fileMoveTask(params: MoveTaskParams) {
     cleanAndRemark(params.deployTo);
     mainScanFile(params.root, (file: customFile) => {
         moveDeploy(file, params.deployTo);
+    });
+}
+
+interface settings {
+    taskList: [
+        | {
+              taskName: 'qiniuUpload';
+              params: qiniuUploadTaskParams;
+          }
+        | {
+              taskName: 'fileMove' | 'htmlMove';
+              params: MoveTaskParams;
+          }
+        | {
+              taskName: 'cleanDir';
+              params: cleanDirTaskParams;
+          }
+    ];
+}
+
+/**
+ * 主函数
+ * @param {object} settings
+ */
+function startTask(settings: settings) {
+    settings.taskList.forEach((item) => {
+        const params = item.params;
+        switch (item.taskName) {
+            case 'qiniuUpload':
+                qiniuUploadTask(<qiniuUploadTaskParams>params);
+                break;
+            case 'fileMove':
+                fileMoveTask(params as MoveTaskParams);
+                break;
+            case 'htmlMove':
+                htmlMoveTask(params as MoveTaskParams);
+                break;
+            case 'cleanDir':
+                cleanDirTask(params as cleanDirTaskParams);
+            default:
+                break;
+        }
     });
 }
 
