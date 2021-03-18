@@ -1,0 +1,56 @@
+name: Node CI
+
+on: push
+
+jobs:
+    # test:
+    #     name: Test on node ${{ matrix.node_version }} and ${{ matrix.os }}
+    #     runs-on: ${{ matrix.os }}
+    #     strategy:
+    #         matrix:
+    #             node_version: [8, 10, 12]
+    #             os: [ubuntu-latest, windows-latest, macos-latest]
+
+    #     steps:
+    #         - uses: actions/checkout@v1
+
+    #         - name: npm install and add version
+    #           run: npm install
+
+    update:
+        # needs: test
+        runs-on: macos-latest
+        steps:
+            - uses: actions/checkout@v2
+            - uses: actions/setup-node@v2
+              with:
+                  node-version: 15.8.0
+            - name: npm install and build
+              run: |
+                  npm install
+                  # npm run test
+                  npm run tsbuild
+
+            - name: write npmrc
+              env:
+                  TOKEN: ${{ secrets.NPM_TOKEN }}
+              run: |
+                  echo '//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}' >.npmrc
+
+            # - run: npm version patch
+            # - uses: JS-DevTools/npm-publish@v1
+            #   with:
+            #       token: ${{ secrets.NPM_TOKEN }}
+
+            - name: 提交到GitHub
+              run: |
+                  git config --global user.email 'yiper.fan@gmail.com'
+                  git config --global user.name "yiper"
+                  git add .
+                  git commit -am 'github action 提交..发布新版本'
+
+            - name: 发布到npm
+              run: |
+                  npm version patch
+                  git push
+                  npm publish
