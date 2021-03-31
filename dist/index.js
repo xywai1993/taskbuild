@@ -27,10 +27,15 @@ import { qiniuUpload } from './qiniuUpload.js';
  */
 function cleanAndRemark(dir, rmSelf = false) {
     // sh(`rm -rf ${deployTo}`);
-    rmSync(dir, { recursive: true });
+    try {
+        rmSync(dir, { recursive: true });
+    }
+    catch (error) {
+        console.log(error);
+    }
     console.log(`${dir},删除成功`);
     if (!rmSelf) {
-        mkdirSync(dir);
+        mkdirSync(dir, { recursive: true });
         console.log(`${dir},创建成功`);
     }
 }
@@ -43,7 +48,7 @@ function moveDeploy(file, deployTo) {
     const to = path.join(deployTo, file.release);
     const dir = path.parse(to).dir;
     if (!existsSync(dir)) {
-        mkdirSync(dir);
+        mkdirSync(dir, { recursive: true });
     }
     copyFileSync(file.from, to);
     console.log(`success: from:${file.from}--->to:${to}`);
