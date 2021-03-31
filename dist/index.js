@@ -3,7 +3,7 @@
  * 执行部署任务———— 图片上传，文件转移等
  * @author yiper.fan 2021年03月17日20:13:57
  */
-import { readdir, readdirSync, copyFileSync, existsSync, mkdirSync, rmdirSync } from 'fs';
+import { readdir, readdirSync, copyFileSync, existsSync, mkdirSync, rmSync } from 'fs';
 import path from 'path';
 // const qiniuUpload = require('./qiniuUpload');
 import { fileURLToPath } from 'url';
@@ -27,7 +27,7 @@ import { qiniuUpload } from './qiniuUpload.js';
  */
 function cleanAndRemark(dir, rmSelf = false) {
     // sh(`rm -rf ${deployTo}`);
-    rmdirSync(dir, { recursive: true });
+    rmSync(dir, { recursive: true });
     console.log(`${dir},删除成功`);
     if (!rmSelf) {
         mkdirSync(dir);
@@ -132,7 +132,7 @@ function htmlMoveTask(params) {
     const _params = Object.assign({ extname: ['html'] }, params);
     const extname = _params.extname.map((item) => '.' + item);
     cleanAndRemark(_params.deployTo);
-    mainScanFile(_params.root, (file) => {
+    mainScanFileSync(_params.root, (file) => {
         if (extname.indexOf(file.extname) !== -1) {
             moveDeploy(file, _params.deployTo);
         }
@@ -140,7 +140,7 @@ function htmlMoveTask(params) {
 }
 function fileMoveTask(params) {
     cleanAndRemark(params.deployTo);
-    mainScanFile(params.root, (file) => {
+    mainScanFileSync(params.root, (file) => {
         moveDeploy(file, params.deployTo);
     });
 }
