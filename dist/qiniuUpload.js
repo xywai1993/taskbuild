@@ -31,7 +31,6 @@ export function qiniuUpload(files, params) {
         }
         var localFile = file.from;
         var key = path.join(project_dir_name, file.release);
-        console.log(putExtra);
         // 文件上传
         formUploader.putFile(uploadToken, key, localFile, putExtra, function (respErr, respBody, respInfo) {
             if (respErr) {
