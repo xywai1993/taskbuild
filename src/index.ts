@@ -5,7 +5,7 @@
  * @author yiper.fan 2021年03月17日20:13:57
  */
 
-import { readdir, readdirSync, copyFileSync, existsSync, mkdirSync, rmdirSync } from 'fs';
+import { readdir, readdirSync, copyFileSync, existsSync, mkdirSync, rmdirSync, rmSync } from 'fs';
 
 import path from 'path';
 // const qiniuUpload = require('./qiniuUpload');
@@ -43,7 +43,7 @@ export interface customFile {
 function cleanAndRemark(dir: string, rmSelf: boolean = false) {
     // sh(`rm -rf ${deployTo}`);
 
-    rmdirSync(dir, { recursive: true });
+    rmSync(dir, { recursive: true });
     console.log(`${dir},删除成功`);
     if (!rmSelf) {
         mkdirSync(dir);
@@ -199,7 +199,7 @@ function htmlMoveTask(params: MoveTaskParams) {
     const _params = Object.assign({ extname: ['html'] }, params);
     const extname = _params.extname.map((item) => '.' + item);
     cleanAndRemark(_params.deployTo);
-    mainScanFile(_params.root, (file: customFile) => {
+    mainScanFileSync(_params.root, (file: customFile) => {
         if (extname.indexOf(file.extname) !== -1) {
             moveDeploy(file, _params.deployTo);
         }
@@ -208,7 +208,7 @@ function htmlMoveTask(params: MoveTaskParams) {
 
 function fileMoveTask(params: MoveTaskParams) {
     cleanAndRemark(params.deployTo);
-    mainScanFile(params.root, (file: customFile) => {
+    mainScanFileSync(params.root, (file: customFile) => {
         moveDeploy(file, params.deployTo);
     });
 }
