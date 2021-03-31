@@ -52,5 +52,5 @@ jobs:
             - name: 发布到npm
               run: |
                   npm version patch
-                  git push
                   npm publish
+                  git push

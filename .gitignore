@@ -6,3 +6,4 @@ htmlTargetDir
 testdist
 taskbuild.js
 .npmrc
+dist
