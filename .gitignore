@@ -3,6 +3,5 @@ node_modules
 *.local
 targetDir
 htmlTargetDir
-testdist
 taskbuild.js
 .npmrc
