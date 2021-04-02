@@ -121,7 +121,7 @@ function mainScanFileSync(from, cb) {
     }
     scanFile(from, cb);
 }
-function cleanDirTask(params) {
+export function cleanDirTask(params) {
     const _params = Object.assign({ rmSelf: false }, params);
     cleanAndRemark(_params.root, _params.rmSelf);
 }
@@ -136,7 +136,7 @@ function qiniuUploadTask(params) {
 function htmlMoveTask(params) {
     const _params = Object.assign({ extname: ['html'] }, params);
     const extname = _params.extname.map((item) => '.' + item);
-    cleanAndRemark(_params.deployTo);
+    params.cover && cleanAndRemark(_params.deployTo);
     mainScanFileSync(_params.root, (file) => {
         if (extname.indexOf(file.extname) !== -1) {
             moveDeploy(file, _params.deployTo);
@@ -144,7 +144,7 @@ function htmlMoveTask(params) {
     });
 }
 function fileMoveTask(params) {
-    cleanAndRemark(params.deployTo);
+    params.cover && cleanAndRemark(params.deployTo);
     mainScanFileSync(params.root, (file) => {
         moveDeploy(file, params.deployTo);
     });

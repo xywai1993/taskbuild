@@ -148,9 +148,13 @@ function mainScanFileSync(from: string, cb: Function) {
 
 interface cleanDirTaskParams {
     root: string;
+    /**
+     * 是否删除目录
+     * @default false
+     */
     rmSelf: boolean;
 }
-function cleanDirTask(params: cleanDirTaskParams) {
+export function cleanDirTask(params: cleanDirTaskParams) {
     const _params = Object.assign({ rmSelf: false }, params);
     cleanAndRemark(_params.root, _params.rmSelf);
 }
@@ -192,18 +196,23 @@ interface MoveTaskParams {
      */
     extname?: string[];
     /**
-     * 类似fileMove
+     * 要部署的源文件目录，完整路径
      */
     root: string;
     /**
-     * 类似fileMove
+     * 部署目录，完整路径
      */
     deployTo: string;
+    /**
+     * 部署方式是否为 '覆盖' , 假如为true，部署目录将会被清空， false则不会被清空
+     * @default true
+     */
+    cover: boolean;
 }
 function htmlMoveTask(params: MoveTaskParams) {
     const _params = Object.assign({ extname: ['html'] }, params);
     const extname = _params.extname.map((item) => '.' + item);
-    cleanAndRemark(_params.deployTo);
+    params.cover && cleanAndRemark(_params.deployTo);
     mainScanFileSync(_params.root, (file: customFile) => {
         if (extname.indexOf(file.extname) !== -1) {
             moveDeploy(file, _params.deployTo);
@@ -212,7 +221,7 @@ function htmlMoveTask(params: MoveTaskParams) {
 }
 
 function fileMoveTask(params: MoveTaskParams) {
-    cleanAndRemark(params.deployTo);
+    params.cover && cleanAndRemark(params.deployTo);
     mainScanFileSync(params.root, (file: customFile) => {
         moveDeploy(file, params.deployTo);
     });

@@ -16,6 +16,7 @@ interface cleanDirTaskParams {
     root: string;
     rmSelf: boolean;
 }
+export declare function cleanDirTask(params: cleanDirTaskParams): void;
 export interface qiniuUploadTaskParams {
     /**
      * 要上传的文件目录，完整路径
@@ -41,13 +42,18 @@ interface MoveTaskParams {
      */
     extname?: string[];
     /**
-     * 类似fileMove
+     * 要部署的源文件目录，完整路径
      */
     root: string;
     /**
-     * 类似fileMove
+     * 部署目录，完整路径
      */
     deployTo: string;
+    /**
+     * 部署方式是否为 '覆盖' , 假如为true，部署目录将会被清空， false则不会被清空
+     * @default true
+     */
+    cover: boolean;
 }
 export interface settings {
     taskList: [

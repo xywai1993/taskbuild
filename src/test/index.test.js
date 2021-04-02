@@ -1,9 +1,26 @@
-import { __dirname } from '../index';
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
+const { startTask, cleanDirTask } = require('../../dist/index.js');
 
-console.log(dirname(fileURLToPath(import.meta.url)));
-test('__dirname', () => {
-    // const p = dirname(fileURLToPath(import.meta.url));
-    // expect(__dirname(import.meta)).tobe;
+const { existsSync } = require('fs');
+const path = require('path');
+
+beforeAll(() => {
+    // Clears the database and adds some testing data.
+    // Jest will wait for this promise to resolve before running tests.
+    cleanDirTask({ root: path.join(__dirname, '../../targetDir/test/test'), rmSelf: true });
+});
+
+test('startTask', () => {
+    startTask({
+        taskList: [
+            {
+                taskName: 'fileMove',
+                params: {
+                    root: path.join(__dirname, '../../testdist'),
+                    deployTo: path.join(__dirname, '../../targetDir/test/test'),
+                },
+            },
+        ],
+    });
+
+    expect(existsSync(path.join(__dirname, '../../targetDir/test/test/index.html'))).toBeTruthy();
 });
