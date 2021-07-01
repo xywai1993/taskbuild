@@ -207,7 +207,7 @@ interface MoveTaskParams {
      * 部署方式是否为 '覆盖' , 假如为true，部署目录将会被清空， false则不会被清空
      * @default true
      */
-    cover: boolean;
+    cover?: boolean;
 }
 function htmlMoveTask(params: MoveTaskParams) {
     const _params = Object.assign({ extname: ['html'] }, params);
