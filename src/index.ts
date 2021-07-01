@@ -196,11 +196,11 @@ interface MoveTaskParams {
      */
     extname?: string[];
     /**
-     * 要部署的源文件目录，完整路径
+     * 要部署的源文件目录，完整路径，不支持相对路径
      */
     root: string;
     /**
-     * 部署目录，完整路径
+     * 部署目录，完整路径，不支持相对路径
      */
     deployTo: string;
     /**
