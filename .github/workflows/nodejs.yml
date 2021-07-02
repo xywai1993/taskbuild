@@ -49,7 +49,7 @@ jobs:
             - name: 提交到GitHub
               run: |
                   git config --global user.email 'yiper.fan@gmail.com'
-                  git config --global user.name "yiper"
+                  git config --global user.name "xywai1993"
                   git add .
                   git commit -am 'github action 提交..发布新版本'
 
@@ -59,3 +59,4 @@ jobs:
                   npm version patch
                   npm publish
                   git push
+                  git push --tag
