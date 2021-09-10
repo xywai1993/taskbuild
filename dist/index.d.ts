@@ -1,3 +1,4 @@
+import { MoveTaskParams } from './interface.js';
 /**
  * 获取文件路径 ，作用类似 Common 模块的 __dirname
  * @param importMeta import.mate
@@ -14,6 +15,10 @@ export interface customFile {
 }
 interface cleanDirTaskParams {
     root: string;
+    /**
+     * 是否删除目录
+     * @default false
+     */
     rmSelf: boolean;
 }
 export declare function cleanDirTask(params: cleanDirTaskParams): void;
@@ -34,26 +39,6 @@ export interface qiniuUploadTaskParams {
      * 七牛secretKey
      */
     secretKey: string;
-}
-interface MoveTaskParams {
-    /**
-     * 在列表中的文件后缀将被转移
-     * @default ['html']
-     */
-    extname?: string[];
-    /**
-     * 要部署的源文件目录，完整路径
-     */
-    root: string;
-    /**
-     * 部署目录，完整路径
-     */
-    deployTo: string;
-    /**
-     * 部署方式是否为 '覆盖' , 假如为true，部署目录将会被清空， false则不会被清空
-     * @default true
-     */
-    cover: boolean;
 }
 export interface settings {
     taskList: [

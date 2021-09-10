@@ -138,15 +138,19 @@ function htmlMoveTask(params) {
     const extname = _params.extname.map((item) => '.' + item);
     params.cover && cleanAndRemark(_params.deployTo);
     mainScanFileSync(_params.root, (file) => {
-        if (extname.indexOf(file.extname) !== -1) {
+        if (extname.includes(file.extname)) {
             moveDeploy(file, _params.deployTo);
         }
     });
 }
 function fileMoveTask(params) {
+    const _params = Object.assign({ extname: [] }, params);
+    const extname = _params.extname.map((item) => '.' + item);
     params.cover && cleanAndRemark(params.deployTo);
     mainScanFileSync(params.root, (file) => {
-        moveDeploy(file, params.deployTo);
+        if (!extname.includes(file.extname)) {
+            moveDeploy(file, _params.deployTo);
+        }
     });
 }
 /**
