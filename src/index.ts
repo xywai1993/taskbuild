@@ -1,5 +1,3 @@
-//const { sh, cli } = require("tasksfile");
-
 /**
  * 执行部署任务———— 图片上传，文件转移等
  * @author yiper.fan 2021年03月17日20:13:57
@@ -259,5 +257,4 @@ function startTask(settings: settings) {
     });
 }
 
-// module.exports = startTask;
 export { startTask };
