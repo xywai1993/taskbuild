@@ -1,3 +1,7 @@
+/**
+ * 执行部署任务———— 图片上传，文件转移等
+ * @author yiper.fan 2021年03月17日20:13:57
+ */
 import { HtmlTaskParams, MoveTaskParams } from './interface.js';
 /**
  * 获取文件路径 ，作用类似 Common 模块的 __dirname
