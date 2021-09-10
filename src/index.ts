@@ -219,7 +219,11 @@ export interface settings {
               params: qiniuUploadTaskParams;
           }
         | {
-              taskName: 'fileMove' | 'htmlMove';
+              taskName: 'htmlMove';
+              params: HtmlTaskParams;
+          }
+        | {
+              taskName: 'fileMove';
               params: MoveTaskParams;
           }
         | {
@@ -232,6 +236,7 @@ export interface settings {
 /**
  * 主函数
  * @param {object} settings
+ * @example startTask({taskList:[{taskName:'fileMove',params:{}}]})
  */
 function startTask(settings: settings) {
     settings.taskList.forEach((item) => {
@@ -244,7 +249,7 @@ function startTask(settings: settings) {
                 fileMoveTask(params as MoveTaskParams);
                 break;
             case 'htmlMove':
-                htmlMoveTask(params as MoveTaskParams);
+                htmlMoveTask(params as HtmlTaskParams);
                 break;
             case 'cleanDir':
                 cleanDirTask(params as cleanDirTaskParams);

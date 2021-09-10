@@ -57,6 +57,5 @@ jobs:
               # if: ${{ always() }}
               run: |
                   npm version patch
-                  npm publish
                   git push
-                  git push --tag
+                  npm publish
