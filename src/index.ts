@@ -10,6 +10,7 @@ import { readdir, readdirSync, copyFileSync, existsSync, mkdirSync, rmdirSync, r
 import path from 'path';
 // const qiniuUpload = require('./qiniuUpload');
 import { fileURLToPath } from 'url';
+import { HtmlTaskParams, MoveTaskParams } from './interface.js';
 
 /**
  * 获取文件路径 ，作用类似 Common 模块的 __dirname
@@ -189,41 +190,25 @@ function qiniuUploadTask(params: qiniuUploadTaskParams) {
     qiniuUpload(files, params);
 }
 
-interface MoveTaskParams {
-    /**
-     * 在列表中的文件后缀将被转移
-     * @default ['html']
-     */
-    extname?: string[];
-    /**
-     * 要部署的源文件目录，完整路径，不支持相对路径
-     */
-    root: string;
-    /**
-     * 部署目录，完整路径，不支持相对路径
-     */
-    deployTo: string;
-    /**
-     * 部署方式是否为 '覆盖' , 假如为true，部署目录将会被清空， false则不会被清空
-     * @default true
-     */
-    cover?: boolean;
-}
-function htmlMoveTask(params: MoveTaskParams) {
+function htmlMoveTask(params: HtmlTaskParams) {
     const _params = Object.assign({ extname: ['html'] }, params);
     const extname = _params.extname.map((item) => '.' + item);
     params.cover && cleanAndRemark(_params.deployTo);
     mainScanFileSync(_params.root, (file: customFile) => {
-        if (extname.indexOf(file.extname) !== -1) {
+        if (extname.includes(file.extname)) {
             moveDeploy(file, _params.deployTo);
         }
     });
 }
 
 function fileMoveTask(params: MoveTaskParams) {
+    const _params = Object.assign({ extname: [] }, params);
+    const extname = _params.extname.map((item) => '.' + item);
     params.cover && cleanAndRemark(params.deployTo);
     mainScanFileSync(params.root, (file: customFile) => {
-        moveDeploy(file, params.deployTo);
+        if (!extname.includes(file.extname)) {
+            moveDeploy(file, _params.deployTo);
+        }
     });
 }
 
