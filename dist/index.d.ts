@@ -1,4 +1,4 @@
-import { MoveTaskParams } from './interface.js';
+import { HtmlTaskParams, MoveTaskParams } from './interface.js';
 /**
  * 获取文件路径 ，作用类似 Common 模块的 __dirname
  * @param importMeta import.mate
@@ -46,7 +46,10 @@ export interface settings {
             taskName: 'qiniuUpload';
             params: qiniuUploadTaskParams;
         } | {
-            taskName: 'fileMove' | 'htmlMove';
+            taskName: 'htmlMove';
+            params: HtmlTaskParams;
+        } | {
+            taskName: 'fileMove';
             params: MoveTaskParams;
         } | {
             taskName: 'cleanDir';
@@ -57,6 +60,7 @@ export interface settings {
 /**
  * 主函数
  * @param {object} settings
+ * @example startTask({taskList:[{taskName:'fileMove',params:{}}]})
  */
 declare function startTask(settings: settings): void;
 export { startTask };

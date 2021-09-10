@@ -156,6 +156,7 @@ function fileMoveTask(params) {
 /**
  * 主函数
  * @param {object} settings
+ * @example startTask({taskList:[{taskName:'fileMove',params:{}}]})
  */
 function startTask(settings) {
     settings.taskList.forEach((item) => {
