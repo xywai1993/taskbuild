@@ -2,9 +2,9 @@ name: Node CI
 
 on:
     push:
-        # branches: [master]
-        tags:
-            - 'npm*'
+        branches: [master]
+        # tags:
+        #     - 'npm*'
 
 jobs:
     # test:
