@@ -17,10 +17,12 @@ test('startTask', () => {
                 params: {
                     root: path.join(__dirname, '../../testdist'),
                     deployTo: path.join(__dirname, '../../targetDir/test/test'),
+                    extname: ['.md'],
                 },
             },
         ],
     });
 
     expect(existsSync(path.join(__dirname, '../../targetDir/test/test/index.html'))).toBeTruthy();
+    expect(existsSync(path.join(__dirname, '../../targetDir/test/test/test.md'))).toBeTruthy();
 });
