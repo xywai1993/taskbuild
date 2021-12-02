@@ -1,7 +1,7 @@
 export interface HtmlTaskParams {
     /**
      * 在列表中的文件后缀将被转移
-     * @default ['html']
+     * @default ['.html']
      */
     extname?: string[];
     /**
@@ -22,6 +22,7 @@ export interface MoveTaskParams {
     /**
      * 在列表中的文件后缀将不会被转移
      * @default []
+     * @example ['.json','.md']
      */
     extname?: string[];
     /**

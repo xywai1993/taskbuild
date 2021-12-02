@@ -9,7 +9,7 @@ beforeAll(() => {
     cleanDirTask({ root: path.join(__dirname, '../../targetDir/test/test'), rmSelf: true });
 });
 
-test('startTask', () => {
+test('fileMove', () => {
     startTask({
         taskList: [
             {
@@ -24,5 +24,22 @@ test('startTask', () => {
     });
 
     expect(existsSync(path.join(__dirname, '../../targetDir/test/test/index.html'))).toBeTruthy();
-    expect(existsSync(path.join(__dirname, '../../targetDir/test/test/test.md'))).toBeTruthy();
+    expect(existsSync(path.join(__dirname, '../../targetDir/test/test/test.md'))).not.toBeTruthy();
+});
+
+test('htmlMove', () => {
+    startTask({
+        taskList: [
+            {
+                taskName: 'htmlMove',
+                params: {
+                    root: path.join(__dirname, '../../testdist'),
+                    deployTo: path.join(__dirname, '../../targetDir/test/test'),
+                },
+            },
+        ],
+    });
+
+    expect(existsSync(path.join(__dirname, '../../targetDir/test/test/index.html'))).toBeTruthy();
+    expect(existsSync(path.join(__dirname, '../../targetDir/test/test/test.md'))).not.toBeTruthy();
 });

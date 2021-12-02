@@ -133,8 +133,8 @@ function qiniuUploadTask(params) {
     qiniuUpload(files, params);
 }
 function htmlMoveTask(params) {
-    const _params = Object.assign({ extname: ['html'] }, params);
-    const extname = _params.extname.map((item) => '.' + item);
+    const _params = Object.assign({ extname: ['.html'] }, params);
+    const extname = _params.extname;
     params.cover && cleanAndRemark(_params.deployTo);
     mainScanFileSync(_params.root, (file) => {
         if (extname.includes(file.extname)) {
@@ -144,7 +144,7 @@ function htmlMoveTask(params) {
 }
 function fileMoveTask(params) {
     const _params = Object.assign({ extname: [] }, params);
-    const extname = _params.extname.map((item) => '.' + item);
+    const extname = _params.extname;
     params.cover && cleanAndRemark(params.deployTo);
     mainScanFileSync(params.root, (file) => {
         if (!extname.includes(file.extname)) {

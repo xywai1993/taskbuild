@@ -189,7 +189,7 @@ function qiniuUploadTask(params: qiniuUploadTaskParams) {
 }
 
 function htmlMoveTask(params: HtmlTaskParams) {
-    const _params = Object.assign({ extname: ['html'] }, params);
+    const _params = Object.assign({ extname: ['.html'] }, params);
     const extname = _params.extname;
     params.cover && cleanAndRemark(_params.deployTo);
     mainScanFileSync(_params.root, (file: customFile) => {
