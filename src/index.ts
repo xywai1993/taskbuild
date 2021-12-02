@@ -158,9 +158,6 @@ export function cleanDirTask(params: cleanDirTaskParams) {
     cleanAndRemark(_params.root, _params.rmSelf);
 }
 
-// console.log(__dirname);
-
-// exports.modules = main;
 export interface qiniuUploadTaskParams {
     /**
      * 要上传的文件目录，完整路径
